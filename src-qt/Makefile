@@ -111,6 +111,19 @@ depend:
 .PHONY : depend
 
 #=============================================================================
+# Target rules for targets named dummy
+
+# Build rule for target.
+dummy: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 dummy
+.PHONY : dummy
+
+# fast build rule for target.
+dummy/fast:
+	$(MAKE) -f CMakeFiles/dummy.dir/build.make CMakeFiles/dummy.dir/build
+.PHONY : dummy/fast
+
+#=============================================================================
 # Target rules for targets named context-free
 
 # Build rule for target.
@@ -122,6 +135,19 @@ context-free: cmake_check_build_system
 context-free/fast:
 	$(MAKE) -f CMakeFiles/context-free.dir/build.make CMakeFiles/context-free.dir/build
 .PHONY : context-free/fast
+
+#=============================================================================
+# Target rules for targets named dummy_automoc
+
+# Build rule for target.
+dummy_automoc: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 dummy_automoc
+.PHONY : dummy_automoc
+
+# fast build rule for target.
+dummy_automoc/fast:
+	$(MAKE) -f CMakeFiles/dummy_automoc.dir/build.make CMakeFiles/dummy_automoc.dir/build
+.PHONY : dummy_automoc/fast
 
 #=============================================================================
 # Target rules for targets named context-free_automoc
@@ -189,6 +215,33 @@ context-free_automoc.s: context-free_automoc.cpp.s
 context-free_automoc.cpp.s:
 	$(MAKE) -f CMakeFiles/context-free.dir/build.make CMakeFiles/context-free.dir/context-free_automoc.cpp.s
 .PHONY : context-free_automoc.cpp.s
+
+dummy_automoc.o: dummy_automoc.cpp.o
+
+.PHONY : dummy_automoc.o
+
+# target to build an object file
+dummy_automoc.cpp.o:
+	$(MAKE) -f CMakeFiles/dummy.dir/build.make CMakeFiles/dummy.dir/dummy_automoc.cpp.o
+.PHONY : dummy_automoc.cpp.o
+
+dummy_automoc.i: dummy_automoc.cpp.i
+
+.PHONY : dummy_automoc.i
+
+# target to preprocess a source file
+dummy_automoc.cpp.i:
+	$(MAKE) -f CMakeFiles/dummy.dir/build.make CMakeFiles/dummy.dir/dummy_automoc.cpp.i
+.PHONY : dummy_automoc.cpp.i
+
+dummy_automoc.s: dummy_automoc.cpp.s
+
+.PHONY : dummy_automoc.s
+
+# target to generate assembly for a file
+dummy_automoc.cpp.s:
+	$(MAKE) -f CMakeFiles/dummy.dir/build.make CMakeFiles/dummy.dir/dummy_automoc.cpp.s
+.PHONY : dummy_automoc.cpp.s
 
 main.o: main.cpp.o
 
@@ -305,8 +358,10 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... edit_cache"
+	@echo "... dummy"
 	@echo "... rebuild_cache"
 	@echo "... context-free"
+	@echo "... dummy_automoc"
 	@echo "... context-free_automoc"
 	@echo "... cfdg_highlighter.o"
 	@echo "... cfdg_highlighter.i"
@@ -314,6 +369,9 @@ help:
 	@echo "... context-free_automoc.o"
 	@echo "... context-free_automoc.i"
 	@echo "... context-free_automoc.s"
+	@echo "... dummy_automoc.o"
+	@echo "... dummy_automoc.i"
+	@echo "... dummy_automoc.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"

@@ -17,6 +17,7 @@ class MainWindow : public QMainWindow
 
     public:
         QTimer t;
+        QString currentFile;
         explicit MainWindow(QWidget *parent = 0);
         ~MainWindow();
         Ui::MainWindow *ui;

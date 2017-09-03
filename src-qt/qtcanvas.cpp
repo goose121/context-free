@@ -49,11 +49,11 @@ void ShapeSpec::drawOnScene(QGraphicsScene *scene) {
     pe.setStyle(Qt::NoPen);
     switch(this->type) {
     case primShape::circleType:
-        item = scene->addEllipse(0, 0, 1, 1, pe, br);
+        item = scene->addEllipse(-0.5, -0.5, 1, 1, pe, br);
         item->setTransform(this->qtr);
         break;
     case primShape::squareType:
-        item = scene->addRect(0, 0, 1, 1, pe, br);
+        item = scene->addRect(-0.5, -0.5, 1, 1, pe, br);
         item->setTransform(this->qtr);
         break;
     case primShape::fillType:
@@ -61,9 +61,10 @@ void ShapeSpec::drawOnScene(QGraphicsScene *scene) {
         break;
     case primShape::triangleType:
         QPainterPath *path = new QPainterPath(QPoint(0, 0));
-        path->lineTo(1, 0);
-        path->lineTo(0.5, 0.8660254037844386);
-        path->lineTo(0, 0);
+        path->moveTo(-0.5, - sqrt(0.75) / 2);
+        path->lineTo(0.5, - sqrt(0.75) / 2);
+        path->lineTo(0, sqrt(0.75 / 2));
+        path->lineTo(-0.5, - sqrt(0.75) / 2);
 
         item = scene->addPath(*path, pe, br);
         item->setTransform(this->qtr);
@@ -79,6 +80,8 @@ AsyncRenderer::AsyncRenderer(int w, int h, int frames, shared_ptr<QtCanvas> canv
     p = new ParseWorker(w, h, frames, canv, mw);
     qDebug() << "Beginning AsyncRenderer constructor" << endl;
     connect(p, SIGNAL(finished() ), p, SLOT(deleteLater() ));
+    connect(p, SIGNAL(earlyAbort() ), mw, SLOT(abortRender() ));
+    connect(p, SIGNAL(earlyAbort() ), p, SLOT(deleteLater() ));
     connect(p, SIGNAL(done() ), this, SLOT(render() ));
     p->start();
     parsing = true;
@@ -157,11 +160,10 @@ void ParseWorker::run() {
     QtSystem sys;
     connect(&sys, SIGNAL(showmsg(const char*)), mw, SLOT(showmsg(const char*)));
 
-    cfdg_ptr design(CFDG::ParseFile("/tmp/tmp.cfdg", &sys, 7394));
+    cfdg_ptr design(CFDG::ParseFile(mw->currentFile.toStdString().c_str(), &sys, 7394));
     if(design.get() == nullptr) {
-        std::cerr << "Design evaluated to null; do you have a startshape?" << std::endl;
-        if(unlink("/tmp/tmp.cfdg"))
-            perror("Unlinking tempfile");
+        sys.catastrophicError("Design evaluated to null");
+        emit earlyAbort();
         return;
     }
     rend = shared_ptr<Renderer>(design->renderer(design,
@@ -171,8 +173,6 @@ void ParseWorker::run() {
                                 4,
                                 2));
     if(rend == nullptr) {
-        if(unlink("/tmp/tmp.cfdg"))
-            perror("Unlinking tempfile");
         emit done();
         return;
     }

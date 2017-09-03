@@ -70,12 +70,14 @@ bool MainWindow::confirmModify() {
 
 void MainWindow::runCode() {
 
-    ofstream fs("/tmp/tmp.cfdg");
-    if (!fs) {
-        perror("Couldn't open tempfile");
+    QFile file(this->currentFile);
+    if (!file.open(QIODevice::WriteOnly)) {
+        QMessageBox::information(this, tr("Unable to open file"),
+                                 file.errorString());
         return;
     }
-    fs << ui->code->toPlainText().toStdString() << std::endl;
+    QTextStream ostream(&file);
+    ostream << ui->code->document()->toPlainText();
 
     QGraphicsScene *tempScene = new QGraphicsScene(this);
     this->scene = tempScene;
@@ -108,6 +110,7 @@ void MainWindow::openFile() {
             return;
         }
         this->setWindowTitle(fileName.remove(0, fileName.lastIndexOf("/")+1) + " - ContextFree");
+        this->currentFile = fileName;
         QTextStream istream(&file);
         QString c;
         c.append(istream.readAll());
@@ -117,8 +120,6 @@ void MainWindow::openFile() {
 }
 
 void MainWindow::saveFile() {
-    if(!confirmModify())
-        return;
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save file"), "", tr("CFDG file (*.cfdg);;All Files (*)"));
     if (fileName.isEmpty())
         return;
@@ -139,13 +140,13 @@ void MainWindow::newFile() {
         return;
     ui->code->document()->clearUndoRedoStacks();
     ui->code->document()->setPlainText("");
+    this->currentFile = "/tmp/tmp.cfdg";
     this->setWindowTitle("New Document - ContextFree");
 }
 
 void MainWindow::doneRender() {
     qDebug() << "Done rendering";
-    if(unlink("/tmp/tmp.cfdg"))
-        perror("Unlinking tempfile");
+
     ui->cancelButton->setVisible(false);
     ui->runButton->setEnabled(true);
     ui->mediaBar->setVisible(true);
@@ -163,12 +164,14 @@ void MainWindow::stop() {
 
 void MainWindow::abortRender() {
     qDebug() << "Aborted rendering";
-    if(unlink("/tmp/tmp.cfdg"))
-        perror("Unlinking tempfile");
+
+    if(r != NULL) {
+        delete r;
+        r = NULL;
+    }
     ui->cancelButton->setVisible(false);
     ui->runButton->setEnabled(true);
     ui->runButton->setText("Build");
-    ui->runButton->setIcon(QIcon::fromTheme("media-playback-start"));
 }
 
 void MainWindow::showmsg(const char* msg) {

@@ -27,6 +27,48 @@
             <DistClean command="/usr/bin/make -f &quot;/home/kiernan/code/context-free/src-qt/Makefile&quot;  VERBOSE=1 clean" />
          </MakeCommands>
       </Target>
+      <Target title="dummy">
+         <Option output="/home/kiernan/code/context-free/src-qt/dummy" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/kiernan/code/context-free/src-qt" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="/home/kiernan/code/context-free/src-qt" />
+            <Add directory="/home/kiernan/code/context-free/src-qt/../src-agg" />
+            <Add directory="/home/kiernan/code/context-free/src-qt/../src-common" />
+            <Add directory="/home/kiernan/code/context-free/src-qt/../src-common/agg-extras" />
+            <Add directory="/home/kiernan/code/context-free/src-qt/../src-unix" />
+            <Add directory="/home/kiernan/code/context-free/src-qt/../src-win/derived" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/kiernan/code/context-free/src-qt/Makefile&quot;  VERBOSE=1 dummy" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/kiernan/code/context-free/src-qt/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/kiernan/code/context-free/src-qt/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/kiernan/code/context-free/src-qt/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="dummy/fast">
+         <Option output="/home/kiernan/code/context-free/src-qt/dummy" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/kiernan/code/context-free/src-qt" />
+         <Option object_output="./" />
+         <Option type="1" />
+         <Option compiler="gcc" />
+         <Compiler>
+            <Add directory="/home/kiernan/code/context-free/src-qt" />
+            <Add directory="/home/kiernan/code/context-free/src-qt/../src-agg" />
+            <Add directory="/home/kiernan/code/context-free/src-qt/../src-common" />
+            <Add directory="/home/kiernan/code/context-free/src-qt/../src-common/agg-extras" />
+            <Add directory="/home/kiernan/code/context-free/src-qt/../src-unix" />
+            <Add directory="/home/kiernan/code/context-free/src-qt/../src-win/derived" />
+         </Compiler>
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/kiernan/code/context-free/src-qt/Makefile&quot;  VERBOSE=1 dummy/fast" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/kiernan/code/context-free/src-qt/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/kiernan/code/context-free/src-qt/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/kiernan/code/context-free/src-qt/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
       <Target title="rebuild_cache">
          <Option working_dir="/home/kiernan/code/context-free/src-qt" />
          <Option type="4" />
@@ -48,7 +90,6 @@
             <Add option="-DQT_GUI_LIB" />
             <Add option="-DQT_CORE_LIB" />
             <Add option="-DQT_NO_DEBUG" />
-            <Add option="-DQT_TESTLIB_LIB" />
             <Add directory="/home/kiernan/code/context-free/src-qt" />
             <Add directory="/home/kiernan/code/context-free/src-qt/../src-agg" />
             <Add directory="/home/kiernan/code/context-free/src-qt/../src-common" />
@@ -58,7 +99,6 @@
             <Add directory="/usr/include/x86_64-linux-gnu/qt5" />
             <Add directory="/usr/include/x86_64-linux-gnu/qt5/QtCore" />
             <Add directory="/usr/include/x86_64-linux-gnu/qt5/QtGui" />
-            <Add directory="/usr/include/x86_64-linux-gnu/qt5/QtTest" />
             <Add directory="/usr/include/x86_64-linux-gnu/qt5/QtWidgets" />
             <Add directory="/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64" />
          </Compiler>
@@ -80,7 +120,6 @@
             <Add option="-DQT_GUI_LIB" />
             <Add option="-DQT_CORE_LIB" />
             <Add option="-DQT_NO_DEBUG" />
-            <Add option="-DQT_TESTLIB_LIB" />
             <Add directory="/home/kiernan/code/context-free/src-qt" />
             <Add directory="/home/kiernan/code/context-free/src-qt/../src-agg" />
             <Add directory="/home/kiernan/code/context-free/src-qt/../src-common" />
@@ -90,12 +129,21 @@
             <Add directory="/usr/include/x86_64-linux-gnu/qt5" />
             <Add directory="/usr/include/x86_64-linux-gnu/qt5/QtCore" />
             <Add directory="/usr/include/x86_64-linux-gnu/qt5/QtGui" />
-            <Add directory="/usr/include/x86_64-linux-gnu/qt5/QtTest" />
             <Add directory="/usr/include/x86_64-linux-gnu/qt5/QtWidgets" />
             <Add directory="/usr/lib/x86_64-linux-gnu/qt5/mkspecs/linux-g++-64" />
          </Compiler>
          <MakeCommands>
             <Build command="/usr/bin/make -f &quot;/home/kiernan/code/context-free/src-qt/Makefile&quot;  VERBOSE=1 context-free/fast" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/kiernan/code/context-free/src-qt/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/kiernan/code/context-free/src-qt/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/kiernan/code/context-free/src-qt/Makefile&quot;  VERBOSE=1 clean" />
+         </MakeCommands>
+      </Target>
+      <Target title="dummy_automoc">
+         <Option working_dir="/home/kiernan/code/context-free/src-qt" />
+         <Option type="4" />
+         <MakeCommands>
+            <Build command="/usr/bin/make -f &quot;/home/kiernan/code/context-free/src-qt/Makefile&quot;  VERBOSE=1 dummy_automoc" />
             <CompileFile command="/usr/bin/make -f &quot;/home/kiernan/code/context-free/src-qt/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
             <Clean command="/usr/bin/make -f &quot;/home/kiernan/code/context-free/src-qt/Makefile&quot;  VERBOSE=1 clean" />
             <DistClean command="/usr/bin/make -f &quot;/home/kiernan/code/context-free/src-qt/Makefile&quot;  VERBOSE=1 clean" />
@@ -129,6 +177,9 @@
       </Unit>
       <Unit filename="/home/kiernan/code/context-free/src-qt/mainwindow.h">
          <Option target="context-free"/>
+      </Unit>
+      <Unit filename="/home/kiernan/code/context-free/src-qt/mainwindow.ui">
+         <Option target="dummy"/>
       </Unit>
       <Unit filename="/home/kiernan/code/context-free/src-qt/qtcanvas.cpp">
          <Option target="context-free"/>

@@ -42,6 +42,7 @@ class ParseWorker: public QThread {
         void run();
     signals:
         void done();
+        void earlyAbort();
     private:
         int w, h, frames;
         shared_ptr<QtCanvas> canv;
