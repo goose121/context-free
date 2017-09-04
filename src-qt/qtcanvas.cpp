@@ -61,10 +61,10 @@ void ShapeSpec::drawOnScene(QGraphicsScene *scene) {
         break;
     case primShape::triangleType:
         QPainterPath *path = new QPainterPath(QPoint(0, 0));
-        path->moveTo(-0.5, - sqrt(0.75) / 2);
-        path->lineTo(0.5, - sqrt(0.75) / 2);
-        path->lineTo(0, sqrt(0.75) / 2);
-        path->lineTo(-0.5, - sqrt(0.75) / 2);
+        path->moveTo(-0.5, - sqrt(0.75) / 2 + 1 / sqrt(48));
+        path->lineTo(0.5, - sqrt(0.75) / 2 + 1 / sqrt(48));
+        path->lineTo(0, sqrt(0.75) / 2 + 1 / sqrt(48));
+        path->lineTo(-0.5, - sqrt(0.75) / 2 + 1 / sqrt(48));
         item = scene->addPath(*path, pe, br);
         item->setTransform(this->qtr);
         delete path;

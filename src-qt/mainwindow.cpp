@@ -170,6 +170,7 @@ void MainWindow::saveFileAs() {
         return;
     else {
         writeFileToDisk(fileName, ui->code->document()->toPlainText());
+        this->currentFile = fileName;
         QDir::setCurrent(QFileInfo( QFile(fileName) ).dir().path());
     }
 }
