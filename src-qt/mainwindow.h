@@ -28,6 +28,7 @@ class MainWindow : public QMainWindow
         void newFile();
     public slots:
         void runCode();
+        void saveFileAction();
         void saveFileAsAction();
         void openFileAction();
         void newFileAction();
@@ -42,7 +43,7 @@ class MainWindow : public QMainWindow
         void setFrame(int frame);
     private:
 
-        bool confirmModify();
+        bool confirmModify(bool newFile);
         AsyncRenderer *r = NULL;
 };
 

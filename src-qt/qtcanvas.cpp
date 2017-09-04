@@ -63,9 +63,8 @@ void ShapeSpec::drawOnScene(QGraphicsScene *scene) {
         QPainterPath *path = new QPainterPath(QPoint(0, 0));
         path->moveTo(-0.5, - sqrt(0.75) / 2);
         path->lineTo(0.5, - sqrt(0.75) / 2);
-        path->lineTo(0, sqrt(0.75 / 2));
+        path->lineTo(0, sqrt(0.75) / 2);
         path->lineTo(-0.5, - sqrt(0.75) / 2);
-
         item = scene->addPath(*path, pe, br);
         item->setTransform(this->qtr);
         delete path;
@@ -169,7 +168,7 @@ void ParseWorker::run() {
     rend = shared_ptr<Renderer>(design->renderer(design,
                                 w,
                                 h,
-                                1,
+                                0.3,
                                 4,
                                 2));
     if(rend == nullptr) {

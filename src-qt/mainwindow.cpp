@@ -7,7 +7,6 @@
 #include <sys/stat.h>
 #include <variation.h>
 #include <cstdio>
-#include "cf-util.h"
 #include <commandLineSystem.h>
 #include <QtDebug>
 #include <QGraphicsItem>
@@ -20,20 +19,20 @@
 #include "qtcanvas.h"
 
 // File i/o
-inline QString readFileFromDisk(QString fname) {
+QString readFileFromDisk(QString fname) {
     QFile file(fname);
     if (!file.open(QIODevice::ReadOnly)) {
-        QMessageBox::information(this, tr("Unable to open file for read"),
+        QMessageBox::information(Q_NULLPTR, "Unable to open file for read",
                                  file.errorString());
-        return;
+        return Q_NULLPTR;
     }
     return file.readAll();
 }
 
-inline void writeStringToDisk(QString fname, QString ostring) {
+void writeFileToDisk(QString fname, QString ostring) {
     QFile file(fname);
     if (!file.open(QIODevice::WriteOnly)) {
-        QMessageBox::information(this, tr("Unable to open file for write"),
+        QMessageBox::information(Q_NULLPTR, "Unable to open file for write",
                                  file.errorString());
         return;
     }
@@ -55,6 +54,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->framesBox->setValue(1);
     ui->framesBox->setRange(1, 1000000);
     t.setInterval(1000/30);
+    currentFile = "";
     connect(&t, SIGNAL(timeout()), this, SLOT(incFrame()));
 }
 
@@ -62,19 +62,21 @@ MainWindow::~MainWindow() {
     delete ui;
 }
 
-bool MainWindow::confirmModify() {
+bool MainWindow::confirmModify(bool newFile = false) {
 
     if(!this->currentFile.isEmpty()) {
         QFile file(this->currentFile);
         if (!file.open(QIODevice::ReadOnly)) {
             QMessageBox::information(this, tr("Unable to open file for read"),
                                      file.errorString());
-            return;
+            return false; // Better safe than sorry
         }
-        QTextStream istream(file);
 
-
-        if ()
+        QString fileOnDisk = file.readAll();
+        if (fileOnDisk == ui->code->document()->toPlainText())
+            return true; // Safe to modify if it's the same
+    } else if(ui->code->document()->toPlainText() == "") {
+        return true; // Don't prompt the user if they haven't done anything to a new file
     }
 
     QMessageBox box;
@@ -86,7 +88,7 @@ bool MainWindow::confirmModify() {
     switch(button) {
     case QMessageBox::Save:
         // save file and continue dangerous action
-        this->saveFileAsAction();
+        this->saveFileAs();
         return true;
         break;
     case QMessageBox::Discard:
@@ -99,7 +101,6 @@ bool MainWindow::confirmModify() {
         break;
     default:
         // this should never happen, unless I'm a grapefruit
-        gerr("Unrecognized button! Aborting...");
         // Don't do it if you don't know what they said
         return false;
     }
@@ -133,15 +134,17 @@ void MainWindow::openFile() {
     if (fileName.isEmpty())
         return;
     else {
-        QDir::setCurrent(QFileInfo( QFile(fileName) ).dir());
+        QDir::setCurrent(QFileInfo( QFile(fileName) ).dir().path());
 
         this->setWindowTitle(fileName.remove(0, fileName.lastIndexOf("/")+1) + " - ContextFree");
         this->currentFile = fileName;
 
         QString file = readFileFromDisk(fileName);
 
-        ui->code->document()->clearUndoRedoStacks();
-        ui->code->document()->setPlainText(file);
+        if (!file.isNull()) {
+            ui->code->document()->clearUndoRedoStacks();
+            ui->code->document()->setPlainText(file);
+        }
     }
 }
 
@@ -167,7 +170,7 @@ void MainWindow::saveFileAs() {
         return;
     else {
         writeFileToDisk(fileName, ui->code->document()->toPlainText());
-        QDir::setCurrent(QFileInfo( QFile(fileName) ).dir());
+        QDir::setCurrent(QFileInfo( QFile(fileName) ).dir().path());
     }
 }
 

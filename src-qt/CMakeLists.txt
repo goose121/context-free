@@ -73,6 +73,8 @@ SET_SOURCE_FILES_PROPERTIES(
   GENERATED true
 )
 
+set(ENV{QT_NO_DEBUG_OUTPUT} 1)
+
 add_executable(context-free ${SOURCE_LIST} ${OBJS})
 add_executable(dummy EXCLUDE_FROM_ALL mainwindow.ui)
 
