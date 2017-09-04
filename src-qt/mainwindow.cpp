@@ -29,15 +29,16 @@ QString readFileFromDisk(QString fname) {
     return file.readAll();
 }
 
-void writeFileToDisk(QString fname, QString ostring) {
+bool writeFileToDisk(QString fname, QString ostring) {
     QFile file(fname);
     if (!file.open(QIODevice::WriteOnly)) {
         QMessageBox::information(Q_NULLPTR, "Unable to open file for write",
                                  file.errorString());
-        return;
+        return false;
     }
     QTextStream ostream(&file);
     ostream << ostring;
+    return true;
 }
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -108,7 +109,8 @@ bool MainWindow::confirmModify(bool newFile = false) {
 
 void MainWindow::runCode() {
 
-    this->saveFile();
+    if(!this->saveFile())
+        return;
 
     QGraphicsScene *tempScene = new QGraphicsScene(this);
     this->scene = tempScene;
@@ -148,11 +150,11 @@ void MainWindow::openFile() {
     }
 }
 
-void MainWindow::saveFile() {
+bool MainWindow::saveFile() {
     if(this->currentFile.isEmpty())
-        this->saveFileAs();
+        return this->saveFileAs();
     else
-        writeFileToDisk(this->currentFile, ui->code->document()->toPlainText());
+        return writeFileToDisk(this->currentFile, ui->code->document()->toPlainText());
 }
 
 void MainWindow::newFile() {
@@ -162,16 +164,16 @@ void MainWindow::newFile() {
     this->setWindowTitle("New Document - ContextFree");
 }
 
-void MainWindow::saveFileAs() {
+bool MainWindow::saveFileAs() {
 
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save file"), "", tr("CFDG file (*.cfdg);;All Files (*)"));
 
     if (fileName.isNull()) // User selected "Cancel"
-        return;
+        return false;
     else {
-        writeFileToDisk(fileName, ui->code->document()->toPlainText());
         this->currentFile = fileName;
         QDir::setCurrent(QFileInfo( QFile(fileName) ).dir().path());
+        return writeFileToDisk(fileName, ui->code->document()->toPlainText());
     }
 }
 

@@ -22,8 +22,8 @@ class MainWindow : public QMainWindow
         ~MainWindow();
         Ui::MainWindow *ui;
         QGraphicsScene *scene;
-        void saveFile();
-        void saveFileAs();
+        bool saveFile();
+        bool saveFileAs();
         void openFile();
         void newFile();
     public slots:
