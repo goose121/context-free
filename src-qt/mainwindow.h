@@ -22,11 +22,15 @@ class MainWindow : public QMainWindow
         ~MainWindow();
         Ui::MainWindow *ui;
         QGraphicsScene *scene;
-    public slots:
-        void runCode();
         void saveFile();
+        void saveFileAs();
         void openFile();
         void newFile();
+    public slots:
+        void runCode();
+        void saveFileAsAction();
+        void openFileAction();
+        void newFileAction();
         void doneRender();
         void stop();
         void abortRender();
@@ -37,6 +41,7 @@ class MainWindow : public QMainWindow
         void startPlayback(bool shouldPlay);
         void setFrame(int frame);
     private:
+
         bool confirmModify();
         AsyncRenderer *r = NULL;
 };

@@ -32,6 +32,12 @@ src-net/.vs/
 src-win/win-install/*.exe
 src-qt/*.o
 src-qt/moc_*
-src-qt/contextfree
+src-qt/ui_*
+src-qt/context-free
 src-qt/CMakeCache.txt
 src-qt/CMakeFiles/
+src-qt/*.cbp
+src-qt/*_automoc*
+src-qt/CMakeLists.txt.user*
+src-qt/*.cfdg
+src-qt/Makefile

@@ -1,5 +1,4 @@
 #include "mainwindow.h"
-#include "cf-util.h"
 #include "cfdg_highlighter.h"
 #include <QApplication>
 #include <QTextEdit>
