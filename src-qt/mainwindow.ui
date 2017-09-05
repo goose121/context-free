@@ -152,6 +152,7 @@
     <addaction name="actionNew"/>
     <addaction name="actionSave"/>
     <addaction name="actionSaveAs"/>
+    <addaction name="actionPrefs"/>
    </widget>
    <addaction name="menuFile"/>
   </widget>
@@ -210,6 +211,11 @@
    </property>
   </action>
   <action name="actionPreferences">
+   <property name="text">
+    <string>Preferences...</string>
+   </property>
+  </action>
+  <action name="actionPrefs">
    <property name="text">
     <string>Preferences...</string>
    </property>
@@ -346,6 +352,22 @@
     </hint>
    </hints>
   </connection>
+  <connection>
+   <sender>actionPrefs</sender>
+   <signal>triggered()</signal>
+   <receiver>MainWindow</receiver>
+   <slot>showPrefs()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>377</x>
+     <y>234</y>
+    </hint>
+   </hints>
+  </connection>
  </connections>
  <slots>
   <slot>openFileAction()</slot>
@@ -356,7 +378,7 @@
   <slot>stop()</slot>
   <slot>startPlayback(bool)</slot>
   <slot>setFrame(int)</slot>
-  <slot>slot1()</slot>
+  <slot>showPrefs()</slot>
   <slot>saveFileAsAction()</slot>
  </slots>
 </ui>

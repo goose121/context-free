@@ -17,6 +17,7 @@
 #include <QMessageBox>
 #include <QtConcurrent/QtConcurrent>
 #include "qtcanvas.h"
+#include "settings_dialog.h"
 
 // File i/o
 QString readFileFromDisk(QString fname) {
@@ -54,7 +55,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->output->setScene(scene);
     ui->framesBox->setValue(1);
     ui->framesBox->setRange(1, 1000000);
-    t.setInterval(1000/30);
+    t.setInterval(1000/30.0);
     currentFile = "";
     connect(&t, SIGNAL(timeout()), this, SLOT(incFrame()));
 }
@@ -195,6 +196,16 @@ void MainWindow::newFileAction() {
     if(!confirmModify())
         return;
     this->newFile();
+}
+
+void MainWindow::showPrefs() {
+    qDebug() << "Showing preferences";
+    SettingsDialog s;
+
+    if(s.exec()) {
+        QSettings s("contextfreeart.org", "ContextFree");
+        t.setInterval(1000.0 / s.value("output_fps").toInt());
+    }
 }
 
 void MainWindow::doneRender() {

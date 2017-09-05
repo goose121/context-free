@@ -6,7 +6,8 @@ set(SOURCE_LIST main.cpp
 		mainwindow.cpp
 		cfdg_highlighter.cpp
                 qtcanvas.cpp
-                qtsystem.cpp)
+                qtsystem.cpp
+                settings_dialog.cpp)
 
 set(INCLUDE_DIR ${CF_MAIN_DIR}/src-common
 		${CF_MAIN_DIR}/src-agg
@@ -73,10 +74,10 @@ SET_SOURCE_FILES_PROPERTIES(
   GENERATED true
 )
 
-set(ENV{QT_NO_DEBUG_OUTPUT} 1)
+#set(ENV{QT_NO_DEBUG_OUTPUT} 1)
 
 add_executable(context-free ${SOURCE_LIST} ${OBJS})
-add_executable(dummy EXCLUDE_FROM_ALL mainwindow.ui)
+add_executable(dummy EXCLUDE_FROM_ALL mainwindow.ui settings_dialog.ui)
 
 target_link_libraries(context-free Qt5::Widgets)
 target_link_libraries(context-free ${PNG_LIBRARIES})

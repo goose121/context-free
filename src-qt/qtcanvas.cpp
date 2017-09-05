@@ -11,7 +11,7 @@
 #include <QThread>
 #include <QtConcurrent/QtConcurrent>
 #include <QtDebug>
-#include <unistd.h>
+#include <QSettings>
 
 using namespace std;
 
@@ -92,6 +92,8 @@ AsyncRenderer::~AsyncRenderer() {
 }
 
 vector<unique_ptr<QGraphicsScene> > &AsyncRenderer::getScenes() {
+    if (scenes.size() == 0)
+        scenes.emplace_back(new QGraphicsScene());
     return scenes;
 }
 
@@ -165,10 +167,11 @@ void ParseWorker::run() {
         emit earlyAbort();
         return;
     }
+    QSettings s("contextfreeart.org", "ContextFree");
     rend = shared_ptr<Renderer>(design->renderer(design,
                                 w,
                                 h,
-                                0.3,
+                                s.value("output_minsize", 0.3).toDouble(),
                                 4,
                                 2));
     if(rend == nullptr) {

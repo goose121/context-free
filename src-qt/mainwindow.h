@@ -32,6 +32,8 @@ class MainWindow : public QMainWindow
         void saveFileAsAction();
         void openFileAction();
         void newFileAction();
+        void showPrefs();
+
         void doneRender();
         void stop();
         void abortRender();
