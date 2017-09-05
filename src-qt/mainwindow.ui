@@ -210,12 +210,10 @@
     <string>Ctrl+Shift+S</string>
    </property>
   </action>
-  <action name="actionPreferences">
-   <property name="text">
-    <string>Preferences...</string>
-   </property>
-  </action>
   <action name="actionPrefs">
+   <property name="icon">
+    <iconset theme="preferences-desktop"/>
+   </property>
    <property name="text">
     <string>Preferences...</string>
    </property>

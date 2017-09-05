@@ -39,3 +39,4 @@ src-qt/Makefile
 src-qt/cmake_install.cmake
 qt-build
 context-free
+**/*.swp
