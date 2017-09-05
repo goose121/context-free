@@ -36,7 +36,11 @@
 #include <dirent.h>
 #include <string.h>
 
-#include <sys/sysctl.h>
+#if defined(__GNU__) || (defined(__ILP32__) && defined(__x86_64__))
+  #define NOSYSCTL
+#else
+  #include <sys/sysctl.h>
+#endif
 #include <sys/types.h>
 #include <unistd.h>
 #include <cstdint>
@@ -230,38 +234,40 @@ PosixSystem::findTempFiles()
 size_t
 PosixSystem::getPhysicalMemory()
 {
-#ifdef __linux__
-#if defined(_SC_PHYS_PAGES) && defined(_SC_PAGESIZE)
+#ifdef NOSYSCTL
+    return 0;
+#elif defined(__linux__)
+  #if defined(_SC_PHYS_PAGES) && defined(_SC_PAGESIZE)
     uint64_t size = sysconf(_SC_PHYS_PAGES) * static_cast<uint64_t>(sysconf(_SC_PAGESIZE));
     if (size > MaximumMemory)
         size = MaximumMemory;
     return static_cast<size_t>(size);
-#else
+  #else
     return 0;
-#endif
-#else // __linux__
+  #endif
+#else // not __linux__ and not NOSYSCTL
     int mib[2];
-#ifdef CTL_HW
+  #ifdef CTL_HW
     mib[0] = CTL_HW;
-#else
+  #else
     return 0;
-#endif
-#if defined(HW_MEMSIZE)
+  #endif
+  #if defined(HW_MEMSIZE)
     mib[1] = HW_MEMSIZE;    // OSX
     uint64_t size = 0;      // 64-bit
-#elif defined(HW_PHYSMEM64)
+  #elif defined(HW_PHYSMEM64)
     mib[1] = HW_PHYSMEM64;  // NetBSD, OpenBSD
     uint64_t size = 0;      // 64-bit
-#elif defined(HW_REALMEM)
+  #elif defined(HW_REALMEM)
     mib[1] = HW_REALMEM;    // FreeBSD
     unsigned int size = 0;  // 32-bit
-#elif defined(HW_PHYSMEM)
+  #elif defined(HW_PHYSMEM)
     mib[1] = HW_PHYSMEM;    // DragonFly BSD
     unsigned int size = 0;  // 32-bit
-#else
+  #else
     uint64_t size = 0;      // need to define this anyway
     return 0;
-#endif
+  #endif
     size_t len = sizeof(size);
     if (sysctl(mib, 2, &size, &len, NULL, 0) == 0) {
         if (size > MaximumMemory)
@@ -269,6 +275,6 @@ PosixSystem::getPhysicalMemory()
         return static_cast<size_t>(size);
     }
     return 0;
-#endif // __linux__
+#endif // __linux__ || NOSYSCTL
 }
 
